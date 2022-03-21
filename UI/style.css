@@ -193,7 +193,8 @@ button, input, label, textarea {
 }
 
 .filter_input:hover,
-.btn_reset:hover {
+.btn_reset:hover,
+.btn_apply:hover {
     opacity: 1;
 }
 
@@ -202,16 +203,29 @@ button, input, label, textarea {
     justify-content: space-between;
 }
 
-.btn_reset {
-    margin: 2rem 5rem 1rem 5rem;
-    opacity: 0.7;
-}
-
 ::-webkit-calendar-picker-indicator {
     color: transparent;
     opacity: 1;
     background: url(/img/calendar.svg) no-repeat center;
     /* background-size: contain; */
+}
+
+.filters {
+    display: flex;
+    flex-direction: column;
+    /* outline: 0; */
+}
+
+/*Filters buttons*/
+.filter_buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem 5rem 1rem 5rem;
+}
+
+.btn_reset,
+.btn_apply {
+    opacity: 0.7;
 }
 
 /*Author*/
@@ -442,7 +456,7 @@ button, input, label, textarea {
 /*Comment container*/
 
 .comment_container {
-    max-height: 88%;
+    max-height: 87%;
     min-width: 59rem;
     /* margin: 1rem 0; */
 
@@ -473,7 +487,7 @@ button, input, label, textarea {
     display: flex;
     width: 100%;
     height: 13rem;
-    padding: 0.5rem 1rem 3rem 1rem;
+    padding: 0.5rem 1rem 2rem 1rem;
 
     color: var(--whiteColor);
     background-color: var(--bcCom);
@@ -486,7 +500,7 @@ button, input, label, textarea {
     flex-direction: column;
     padding: 0.5rem;
     overflow-y: auto;
-    max-height: 27rem;
+    max-height: 26.5rem;
 }
 
 .comment_wrp {
@@ -543,7 +557,7 @@ button, input, label, textarea {
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1rem 3rem;
-    margin: 1rem 0;
+    margin: 0.6rem 0;
 
     background-color: var(--bcCom);
     border-radius: 20px;

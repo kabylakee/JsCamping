@@ -42,18 +42,26 @@
                <div class="filter"><img class="icon" src="img/filter_icon.svg" alt="Filter icon">
                     <span class="f_name">Filters</span>
                 </div>
-                <label class="filter__name">Author</label>
-                <input type="text" class="filter_input">
-                <label class="filter__name">Date</label>
-                <div class="date_input">
-                    <input type="date" class="filter_input">
-                    <input type="date" class="filter_input">
+                <form class="filters">
+                        <label class="filter__name" for="filter_author">Author</label>
+                        <input type="text" class="filter_input" id="filter_author">
+
+                        <label class="filter__name" for="filter_date">Date</label>
+                        <div class="date_input">
+                            <input type="date" class="filter_input" id="filter_date">
+                            <input type="date" class="filter_input" id="filter_date">
+                        </div>
+                        
+                        <label class="filter__name" for="filter_text">Text</label>
+                        <input type="text" class="filter_input" id="filter_text">
+                        
+                        <label class="filter__name" for="filter_hashtag">#Hashtag</label>
+                        <input type="text" class="filter_input" id="filter_hashtag" list="list" >
+                </form>
+                <div class="filter_buttons">
+                    <button type="button" class="btn_apply" title="Apply all filters"><img style="width: 32px; height: 32px;" src="img/apply_filter.svg" alt="Apply buton"></button>
+                    <button type="reset" class="btn_reset" title="Reset filters"><img style="width: 40px; height: 40px;" src="img/reset_btn.svg" alt="Reset buton"></button>
                 </div>
-                <label class="filter__name">Text</label>
-                <input type="text" class="filter_input">
-                <label class="filter__name">#Hashtag</label>
-                <input type="text" class="filter_input" list="list" multiple>
-                <button type="reset" class="btn_reset" title="Reset filters"><img style="width: 40px; height: 40px;" src="img/reset_btn.svg" alt="Reset buton"></button>
             </aside>
 
             <aside class="author_aside">
@@ -87,7 +95,6 @@
                          <div class="twit_text">
                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum dolor turpis, 
                              in luctus mi hendrerit ut. Etiam posuere aliquet elit, at bibendum orci semper nec. </p>
-                             <br>
                              <span class="hashtag">#lorem</span>
                              <span class="hashtag">#ipsum</span>
                              <span class="hashtag">#dolor #sit</span>
@@ -114,7 +121,6 @@
                          <div class="twit_text">
                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum dolor turpis, 
                              in luctus mi hendrerit ut. Etiam posuere aliquet elit, at bibendum orci semper nec. </p>
-                             <br>
                              <span class="hashtag">#lorem</span>
                              <span class="hashtag">#ipsum</span>
                              <span class="hashtag">#dolor #sit</span>
@@ -141,7 +147,6 @@
                          <div class="twit_text">
                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum dolor turpis, 
                              in luctus mi hendrerit ut. Etiam posuere aliquet elit, at bibendum orci semper nec. </p>
-                             <br>
                              <span class="hashtag">#lorem</span>
                              <span class="hashtag">#ipsum</span>
                              <span class="hashtag">#dolor #sit</span>
@@ -149,8 +154,6 @@
                          </div>
                     </div>
                     <div class="twit_menu">
-                        <!-- <button class="btn_change" title="Change twit"><img src="img/edit_twit.svg" alt="Change button" class="btn_img"></button>
-                        <button class="btn_delete" title="Delete twit"><img src="img/delete_twit.svg" alt="Delete button" class="btn_img"></button> -->
                         <div class="twit_msg">
                             <span class="com_number"></span>
                             <button class="btn_check_com" title="Comments"><img src="img/com_twit.svg" alt="Check comment button" class="btn_img"></button>
@@ -168,7 +171,6 @@
                          <div class="twit_text">
                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum dolor turpis, 
                              in luctus mi hendrerit ut. Etiam posuere aliquet elit, at bibendum orci semper nec. </p>
-                             <br>
                              <span class="hashtag">#lorem</span>
                              <span class="hashtag">#ipsum</span>
                              <span class="hashtag">#dolor #sit</span>
@@ -176,8 +178,6 @@
                          </div>
                     </div>
                     <div class="twit_menu">
-                        <!-- <button class="btn_change" title="Change twit"><img src="img/edit_twit.svg" alt="Change button" class="btn_img"></button>
-                        <button class="btn_delete" title="Delete twit"><img src="img/delete_twit.svg" alt="Delete button" class="btn_img"></button> -->
                         <div class="twit_msg">
                             <span class="com_number">23</span>
                             <button class="btn_check_com" title="Comments"><img src="img/com_twit.svg" alt="Check comment button" class="btn_img"></button>
@@ -195,7 +195,6 @@
                          <div class="twit_text">
                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum dolor turpis, 
                              in luctus mi hendrerit ut. Etiam posuere aliquet elit, at bibendum orci semper nec. </p>
-                             <br>
                              <span class="hashtag">#lorem</span>
                              <span class="hashtag">#ipsum</span>
                              <span class="hashtag">#dolor #sit</span>
@@ -203,8 +202,6 @@
                          </div>
                     </div>
                     <div class="twit_menu">
-                        <!-- <button class="btn_change" title="Change twit"><img src="img/edit_twit.svg" alt="Change button" class="btn_img"></button>
-                        <button class="btn_delete" title="Delete twit"><img src="img/delete_twit.svg" alt="Delete button" class="btn_img"></button> -->
                         <div class="twit_msg">
                             <span class="com_number"></span>
                             <button class="btn_check_com" title="Comments"><img src="img/com_twit.svg" alt="Check comment button" class="btn_img"></button>
@@ -222,7 +219,6 @@
                          <div class="twit_text">
                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum dolor turpis, 
                              in luctus mi hendrerit ut. Etiam posuere aliquet elit, at bibendum orci semper nec. </p>
-                             <br>
                              <span class="hashtag">#lorem</span>
                              <span class="hashtag">#ipsum</span>
                              <span class="hashtag">#dolor #sit</span>
@@ -230,8 +226,6 @@
                          </div>
                     </div>
                     <div class="twit_menu">
-                        <!-- <button class="btn_change" title="Change twit"><img src="img/edit_twit.svg" alt="Change button" class="btn_img"></button>
-                        <button class="btn_delete" title="Delete twit"><img src="img/delete_twit.svg" alt="Delete button" class="btn_img"></button> -->
                         <div class="twit_msg">
                             <span class="com_number"></span>
                             <button class="btn_check_com" title="Comments"><img src="img/com_twit.svg" alt="Check comment button" class="btn_img"></button>
@@ -249,7 +243,6 @@
                          <div class="twit_text">
                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum dolor turpis, 
                              in luctus mi hendrerit ut. Etiam posuere aliquet elit, at bibendum orci semper nec. </p>
-                             <br>
                              <span class="hashtag">#lorem</span>
                              <span class="hashtag">#ipsum</span>
                              <span class="hashtag">#dolor #sit</span>
@@ -257,8 +250,6 @@
                          </div>
                     </div>
                     <div class="twit_menu">
-                        <!-- <button class="btn_change" title="Change twit"><img src="img/edit_twit.svg" alt="Change button" class="btn_img"></button>
-                        <button class="btn_delete" title="Delete twit"><img src="img/delete_twit.svg" alt="Delete button" class="btn_img"></button> -->
                         <div class="twit_msg">
                             <span class="com_number"></span>
                             <button class="btn_check_com" title="Comments"><img src="img/com_twit.svg" alt="Check comment button" class="btn_img"></button>
@@ -276,7 +267,6 @@
                          <div class="twit_text">
                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum dolor turpis, 
                              in luctus mi hendrerit ut. Etiam posuere aliquet elit, at bibendum orci semper nec. </p>
-                             <br>
                              <span class="hashtag">#lorem</span>
                              <span class="hashtag">#ipsum</span>
                              <span class="hashtag">#dolor #sit</span>
@@ -284,8 +274,6 @@
                          </div>
                     </div>
                     <div class="twit_menu">
-                        <!-- <button class="btn_change" title="Change twit"><img src="img/edit_twit.svg" alt="Change button" class="btn_img"></button>
-                        <button class="btn_delete" title="Delete twit"><img src="img/delete_twit.svg" alt="Delete button" class="btn_img"></button> -->
                         <div class="twit_msg">
                             <span class="com_number"></span>
                             <button class="btn_check_com" title="Comments"><img src="img/com_twit.svg" alt="Check comment button" class="btn_img"></button>
@@ -303,7 +291,6 @@
                          <div class="twit_text">
                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum dolor turpis, 
                              in luctus mi hendrerit ut. Etiam posuere aliquet elit, at bibendum orci semper nec. </p>
-                             <br>
                              <span class="hashtag">#lorem</span>
                              <span class="hashtag">#ipsum</span>
                              <span class="hashtag">#dolor #sit</span>
@@ -311,8 +298,6 @@
                          </div>
                     </div>
                     <div class="twit_menu">
-                        <!-- <button class="btn_change" title="Change twit"><img src="img/edit_twit.svg" alt="Change button" class="btn_img"></button>
-                        <button class="btn_delete" title="Delete twit"><img src="img/delete_twit.svg" alt="Delete button" class="btn_img"></button> -->
                         <div class="twit_msg">
                             <span class="com_number"></span>
                             <button class="btn_check_com" title="Comments"><img src="img/com_twit.svg" alt="Check comment button" class="btn_img"></button>
@@ -330,7 +315,6 @@
                          <div class="twit_text">
                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum dolor turpis, 
                              in luctus mi hendrerit ut. Etiam posuere aliquet elit, at bibendum orci semper nec. </p>
-                             <br>
                              <span class="hashtag">#lorem</span>
                              <span class="hashtag">#ipsum</span>
                              <span class="hashtag">#dolor #sit</span>
@@ -338,8 +322,6 @@
                          </div>
                     </div>
                     <div class="twit_menu">
-                        <!-- <button class="btn_change" title="Change twit"><img src="img/edit_twit.svg" alt="Change button" class="btn_img"></button>
-                        <button class="btn_delete" title="Delete twit"><img src="img/delete_twit.svg" alt="Delete button" class="btn_img"></button> -->
                         <div class="twit_msg">
                             <span class="com_number"></span>
                             <button class="btn_check_com" title="Comments"><img src="img/com_twit.svg" alt="Check comment button" class="btn_img"></button>
