@@ -361,7 +361,7 @@ function getTweets( skip = 0, top = 10, filterConfig = {}) {
 
 
     function validateTweet(tw) {
-            return Object.keys(tw).reduce((acc, key) => {
+            return Object.values(TweetKeys).reduce((acc, key) => {
             if (key === TweetKeys.ID) {
                 acc = typeof tw?.id === 'string';
                 return acc;
@@ -427,7 +427,7 @@ function getTweets( skip = 0, top = 10, filterConfig = {}) {
 
 
     function validateComment(com) {
-        return Object.keys(com).reduce((acc, key) => {
+        return Object.values(CommentKeys).reduce((acc, key) => {
             if (key === CommentKeys.ID) {
                 acc = typeof com?.id === 'string';
                 return acc;
