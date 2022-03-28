@@ -422,7 +422,7 @@ class TweetCollection {
     
     constructor(tws) {
         this._tweets = tws.map(item => new Tweet(item.id, item.text, item.createdAt, item.author, item.comments));
-        this._user = 'Vika';
+        this._user = null;
     }
 
     get tweets() {
@@ -516,14 +516,14 @@ class TweetCollection {
 
     addAll (tws) {
         tws = tws.map(item => new Tweet(item.id, item.text, item.createdAt, item.author, item.comments));
-        let arr = [];
-        for (let item of tws) {
-            if(!Tweet.validate(item)) {
-                arr.push(item);
+        let invalidTweets = [];
+        for (let tw of tws) {
+            if(Tweet.validate(tw) === false) {
+                invalidTweets.push(tw);
             }
-            this.tweets.push(item);
+            this.tweets.push(Tweet.tw);
         }
-        return arr;
+        return invalidTweets;
     }
 
     clear() {
@@ -532,13 +532,13 @@ class TweetCollection {
 }
 
 const tweetCollection1 = new TweetCollection(tweetsArray);
+tweetCollection1.user = 'Vika'
 
-const tw1 = new Tweet({
-    text: 'text'
-});
 
 // tweetCollection1.add('hello');
-// tweetCollection1.add('text');
+// tweetCollection1.add('tw1');
+// tweetsArray.push({text: ''})
+// console.log(tweetCollection1.addAll(tweetsArray));
 // tweetCollection1.addComment('1', 'text');
 // console.log(tweetCollection1.getPage(0, 10));
 // console.log(tweetCollection1.getPage(10, 10));
@@ -598,7 +598,6 @@ const tw1 = new Tweet({
 //     }
 //     ));
 
-// console.log(tweetCollection1.addAll(tweetsArray));
 
 // console.log(tweetCollection1.add('The sun stands #dark')); 
 // console.log(tweetCollection1.add('')); 
