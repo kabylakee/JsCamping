@@ -469,13 +469,7 @@ class TweetCollection {
     }
 
     add(text) {
-        const newTweet = {
-            id: `${+new Date()}`,
-            author: this.user,
-            text: text,
-            createdAt: new Date(),
-            comments: [],
-        };
+        const newTweet = new Tweet(`${+new Date()}`, text, new Date(), this.user, []);
         if(Tweet.validate(newTweet)) {
             this.tweets.push(newTweet);
             console.log('Tweet added successfully!');
@@ -509,12 +503,7 @@ class TweetCollection {
     }
 
     addComment(id, text) {
-        const newComment = {
-            id: `${+new Date()}`,
-            author: this.user,
-            text: text,
-            createdAt: new Date(),
-        };
+        let newComment = new Comment(`${+new Date()}`, text, new Date(), this.user);
         if(Comment.validate(newComment)) {
             const comment = this.get(id).comments;
             comment.push(newComment);
@@ -544,14 +533,13 @@ class TweetCollection {
 
 const tweetCollection1 = new TweetCollection(tweetsArray);
 
-// const tw1 = new Tweet({
-//     text: 'text'
-// });
+const tw1 = new Tweet({
+    text: 'text'
+});
 
 // tweetCollection1.add('hello');
 // tweetCollection1.add('text');
-// console.log(tweetCollection1.getPage(0, 10)); 
-
+// tweetCollection1.addComment('1', 'text');
 // console.log(tweetCollection1.getPage(0, 10));
 // console.log(tweetCollection1.getPage(10, 10));
 // console.log(tweetCollection1.getPage());
@@ -566,7 +554,7 @@ const tweetCollection1 = new TweetCollection(tweetsArray);
 // console.log(tweetCollection1.getPage(0, 10, {hashtags: ['#fish', '#texts']}));
 // console.log(tweetCollection1.getPage(0, 10, {hashtags: ['#moment']}));
 
-// console.log(tweetCollection1.get('3'));
+// console.log(tweetCollection1.get('1'));
 // console.log(tweetCollection1.get('32'));
 
 // const tweet = new Tweet('6654', 'John', Date('2022-03-14T19:43:23'), 'Hello', []);
