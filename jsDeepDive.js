@@ -468,6 +468,10 @@ class TweetCollection {
         return this.tweets.find(item => item.id === id);
     }
 
+    getCom(id) {
+        return this.tweets.find(item => item.id === id).comments;
+    }
+
     add(text) {
         const newTweet = new Tweet(`${+new Date()}`, text, new Date(), this.user, []);
         if(Tweet.validate(newTweet)) {
@@ -526,13 +530,17 @@ class TweetCollection {
         return invalidTweets;
     }
 
+     numbOfComments(item) {
+        return item?.comments?.length || '';
+    }
+
     clear() {
         this.tweets = [];
     }
 }
 
 const tweetCollection1 = new TweetCollection(tweetsArray);
-tweetCollection1.user = 'Vika'
+tweetCollection1.user = 'John Doe'
 
 
 // tweetCollection1.add('hello');
@@ -603,8 +611,8 @@ tweetCollection1.user = 'Vika'
 // console.log(tweetCollection1.add('')); 
 // console.log(tweetCollection1.get(`${+new Date()}`));
 
-// console.log(tweetCollection1.edit('20', 'Hi'));
-// console.log(tweetCollection1.get('20'));
+// console.log(tweetCollection1.edit('19', 'Hi'));
+// console.log(tweetCollection1.get('19'));
 // console.log(tweetCollection1.edit('20', ''));
 // console.log(tweetCollection1.get('20'));
 
@@ -613,4 +621,5 @@ tweetCollection1.user = 'Vika'
 
 
 // console.log(tweetCollection1.addComment('15', 'HELLO')); 
-// console.log(tweetCollection1.get('15'));
+// console.log(tweetCollection1.getCom('12'));
+// console.log(tweetCollection1.numbOfComments('12'));

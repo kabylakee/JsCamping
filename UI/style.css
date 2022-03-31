@@ -99,21 +99,32 @@ button, input, label, textarea {
 
 /* Btn Sign out*/
 
-.btn_sign_out {
+.btn_sign_out,
+.btn_sign {
     display: flex;
     align-items: center;
     padding-right: calc(var(--padding)*2);
 }
 
-.sign_out {
+.sign_out,
+.sign_in,
+.sign_up {
     /* background: none; */
     color: var(--blueColor);
     font-weight: 500;
     font-size: var(--midFSize);
+    padding: 1rem;
     /* position: relative; */
 }
 
-.sign_out:after {
+.sign_up {
+    /* background-color: var(--BosblueColor); */
+    border-radius: 30px;
+    border: 1px solid var(--blueColor);
+}
+
+.sign_out:after,
+.sign_in:after {
     content: "";
     display: block;
     width: 100%;
@@ -125,11 +136,14 @@ button, input, label, textarea {
     top: 100%;
 }
 
-.sign_out:hover {
+.sign_out:hover,
+.sign_in:hover,
+.sign_up:hover {
     color: var(--BosblueColor);
 }
 
-.sign_out:hover:after {
+.sign_out:hover:after,
+.sign_in:hover:after {
     opacity: 1;
 } 
 
