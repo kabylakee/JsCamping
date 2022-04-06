@@ -256,6 +256,10 @@ button, input, label, textarea {
     border-radius: 20px;
 }
 
+#author-view-id {
+     overflow-y: auto;
+}
+
 .author {
    display: flex;
    align-items:center;
