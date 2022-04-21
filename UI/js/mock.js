@@ -45,7 +45,7 @@ const tweetsArray = [
   },
   {
     id: "2",
-    text: "Far from everyone, they live in letter houses on the shores of the Semantics of a large #linguistic #ocean.",
+    text: "Far from everyone, they live in letter houses on the shores of the Semantics of a large #linguistic #ocean",
     createdAt: new Date("2022-03-10T16:48:01"),
     author: "Sarah Loren",
     comments: [
@@ -59,7 +59,7 @@ const tweetsArray = [
   },
   {
     id: "3",
-    text: "May Be This Will be helpful to future guys mab be this thing will never #be #same.",
+    text: "May Be This Will be helpful to future guys mab be this thing will never #be #same",
     createdAt: new Date("2022-03-11T10:23:10"),
     author: "Lara Couch",
     comments: [
@@ -175,7 +175,7 @@ const tweetsArray = [
   },
   {
     id: "11",
-    text: "Not listening to the #manuscript, our text #continued on its way.",
+    text: "Not listening to the #manuscript our text #continued on its way.",
     createdAt: new Date("2022-03-13T19:43:23"),
     author: "Sarah Palmen",
     comments: [
@@ -290,7 +290,7 @@ const tweetsArray = [
   },
   {
     id: "18",
-    text: "I could not have done a single stroke, and I have never been such a great artist as at #these #moments. ",
+    text: "I could not have done a single stroke and I have never been such a great artist as at #these #moments ",
     createdAt: new Date("2022-03-15T08:43:32"),
     author: "Tony Stark",
     comments: [

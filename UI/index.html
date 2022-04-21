@@ -36,7 +36,7 @@
         <div class="btn_sign_out" style="display: none">
           <button class="sign_out" id="sign-out">Sign out</button>
         </div>
-        <!-- Нужно убрать внизу style="display: none" -->
+        
         <div class="btn_sign">
           <button class="sign_in" id="sign-in">Sign in</button>
           <button class="sign_up" id="sign-up">Sign up</button>
@@ -76,23 +76,26 @@
               class="filter_input"
               id="filter_hashtag"
               list="list"
+              placeholder="#hashtag #hashtag"
             />
-          </form>
-          <div class="filter_buttons">
-            <button type="button" class="btn_apply" title="Apply all filters">
-              <img
-                style="width: 32px; height: 32px"
-                src="img/apply_filter.svg"
-                alt="Apply buton"
-              />
-            </button>
-            <button type="reset" class="btn_reset" title="Reset filters">
+            <button type="reset" class="btn_reset" id="btn-reset"  title="Reset filters" >
+              <!-- onclick="this.form.reset();" -->
               <img
                 style="width: 40px; height: 40px"
                 src="img/reset_btn.svg"
                 alt="Reset buton"
               />
             </button>
+          </form>
+          <div class="filter_buttons">
+            <!-- <button type="button" class="btn_apply" title="Apply all filters">
+              <img
+                style="width: 32px; height: 32px"
+                src="img/apply_filter.svg"
+                alt="Apply buton"
+              />
+            </button> -->
+            
           </div>
         </aside>
 
@@ -118,6 +121,7 @@
             cols=""
             rows=""
             placeholder="What's  new?"
+            maxlength="280"
           ></textarea>
           <button class="btn_send" id="btn-send">
             <img src="img/send_twit.svg" alt="Send button" />
@@ -142,7 +146,8 @@
                 <span class="hashtag"></span>
               </div>
 
-              <textarea rows="3" cols="50" name="text" id="edit_area" style="display: none;"></textarea>
+              <textarea rows="4" cols="55" name="text" id="edit_area" class="edit-area" style="display: none;" maxlength="280"></textarea>
+              
            
             </div>
             <div class="twit_menu">
@@ -160,6 +165,7 @@
                   class="btn_img"
                 />
               </button>
+              <button class="send-edited-text" style="display: none;"><img src="img/ok-icon.svg" alt="Send button"/></button>
               <div class="twit_msg">
                 <span class="com_number"></span>
                 <button class="btn_check_com" title="Comments">
@@ -185,8 +191,8 @@
       <article class="comment_container">
         <div class="return_wrp">
           <img src="img/arrow_link.svg" alt="Return arrow" />
-          <a href="main.html" class="return_link"
-            >Return to the <span id="btn-main-page">Main Page</span>
+          <a class="return_link" id="link-main-page"
+            >Return to the <span>Main Page</span>
           </a>
         </div>
 
@@ -242,11 +248,11 @@
           <div class="comment_wrp">
             <div class="comment_info">
               <img class="user__icon" src="img/user-icon.svg" alt="User Icon" />
-              <span class="user__name">John Doe</span>
-              <span class="date_time">21.02.2022 13:22</span>
+              <span class="user__name"></span>
+              <span class="date_time"></span>
             </div>
             <div class="comment_text">
-              <p>Lorem ipsum dolor.</p>
+              <p></p>
             </div>
           </div>
         </template>
@@ -264,8 +270,9 @@
           cols=""
           rows=""
           placeholder="Your reply..."
+          maxlength="280"
         ></textarea>
-        <button class="btn_reply">Reply</button>
+        <button class="btn_reply" id="btn-reply">Reply</button>
       </article>
     </main>
 
@@ -281,7 +288,7 @@
           <p class="form__title">Welcome to Moodle</p>
           <p class="form__subtitle">Share your feelings and thoughts!</p>
 
-          <input type="text" name="login" placeholder="Login" class="login" required/>
+          <input type="text" name="login" placeholder="Login" class="login" defaultValue="" required/>
 
           <input
             type="password"
@@ -293,13 +300,12 @@
 
           <p class="validation_title" style="display: none;">Incorrect login or password!</p>
           <button type="submit" id="btn-auth">Sign in</button>
-
-          <div class="title__create">
-            <p class="lower__title">New to Moodle?</p>
-            <button class="btn_create" id="sign-up">Create an account</button>
-          </div>
-        </div>
       </form>
+      <div class="title__create" id="sign-up-form">
+            <p class="lower__title">New to Moodle?</p>
+            <button class="btn_create">Create an account</button>
+          </div>
+      </div>
 
       <form class="form__signUp" id="form-signUp" style="display: none;">
         <div class="container__signUp">
@@ -331,11 +337,12 @@
           />
 
           <p class="validation_title2" style="display: none;">This user is existed!</p>
+          <p class="wrong_title" style="display: none;">Your passwords do not match!</p>
           <button type="submit" id="btn-registr">Sign up</button>
 
           <div class="title__create">
             <p class="lower__title">Already have an account?</p>
-            <button class="sign_in" id="sign-in">Sign in</button>
+            <button class="sign_in" id="sign-in-form">Sign in</button>
           </div>
         </div>
       </form>

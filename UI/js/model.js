@@ -34,7 +34,6 @@ class Tweet {
   static requiredTweetKeys = ["id", "text", "createdAt", "author", "comments"];
 
   static validate(tw) {
-    // console.log(tw);
     return Tweet.requiredTweetKeys.reduce((acc, key) => {
       if (key === "id") {
         acc = acc && typeof tw?.id === "string";
@@ -68,7 +67,7 @@ class Comment {
   constructor(id, text, createdAt, author) {
     this._id = id;
     this.text = text;
-    this._createdAt = createdAt;
+    this._createdAt = new Date(createdAt);
     this._author = author;
   }
 
@@ -212,14 +211,6 @@ class TweetCollection {
     return this.tweets.find((item) => item.id === id).comments;
   }
 
-  getCom(id) {
-    return this.tweets.find((item) => item.id === id).comments;
-  }
-
-  getCom(id) {
-    return this.tweets.find((item) => item.id === id).comments;
-  }
-
   getAuthor(authorsFiltered = []) {
     authorsFiltered = this.tweets.map((tweet) => (tweet = tweet.author));
     return [...new Set(authorsFiltered)];
@@ -243,9 +234,26 @@ class TweetCollection {
     return false;
   }
 
+  addComment(id, text) {
+    let newComment = new Comment(
+      `${+new Date()}`,
+      text,
+      new Date(),
+      TweetCollection.user
+    );
+    if (Comment.validate(newComment)) {
+      const comment = this.getCom(id);
+      comment.push(newComment);
+      this.saveTweets();
+      console.log("Comment added successfully");
+      return true;
+    }
+    console.log("Comment wasn't added");
+    return false;
+  }
+
   edit(id, text) {
     let tweet = this.get(id);
-    console.log(tweet);
     if (tweet && tweet.author === TweetCollection.user) {
       const newTweet = new Tweet(
         tweet.id,
@@ -257,6 +265,7 @@ class TweetCollection {
       if (Tweet.validate(newTweet)) {
         tweet.text = text;
         console.log("Tweet was edited!");
+        this.saveTweets();
         return true;
       }
       console.log("Tweet was not edited 1");
@@ -267,26 +276,13 @@ class TweetCollection {
   }
 
   remove(id) {
-    
     let tweet = this.get(id);
-    console.log(id, tweet);
+    // console.log(id, tweet);
     if (tweet && tweet.author === TweetCollection.user) {
       this.tweets.splice(this.tweets.indexOf(this.get(id)), 1);
       this.saveTweets();
       return true;
     }
-    return false;
-  }
-
-  addComment(id, text) {
-    let newComment = new Comment(`${+new Date()}`, text, new Date(), this.user);
-    if (Comment.validate(newComment)) {
-      const comment = this.get(id).comments;
-      comment.push(newComment);
-      console.log("Comment added successfully");
-      return true;
-    }
-    console.log("Comment wasn't added");
     return false;
   }
 
@@ -320,14 +316,14 @@ class TweetCollection {
   }
 
   saveUser(isSaveOrRemove) {
-    localStorage.setItem("user", JSON.stringify(isSaveOrRemove ? TweetCollection.user : null));
+    localStorage.setItem(
+      "user",
+      JSON.stringify(isSaveOrRemove ? TweetCollection.user : null)
+    );
   }
 
   saveTweets() {
-    localStorage.setItem(
-      "tweetsArray",
-      JSON.stringify(this.tweets)
-    );
+    localStorage.setItem("tweetsArray", JSON.stringify(this.tweets));
   }
 
   restore() {
@@ -341,10 +337,17 @@ class TweetCollection {
           item.text,
           item.createdAt || item._createdAt,
           item.author || item._author,
-          item.comments
+          item.comments.map(
+            (com) =>
+              new Comment(
+                com.id || com._id,
+                com.text,
+                com.createdAt || com._createdAt,
+                com.author || com._author
+              )
+          )
         )
     );
-    console.log(TweetCollection.user);
   }
 }
 
@@ -377,93 +380,9 @@ class UserCollection {
 
   isExist(user) {
     console.log(this.users, user);
-    return this.users.find((item) => item.userName === user.userName);
+    return this.users.find((item) => item.userName === user.userName && item.password === user.password);
   }
 
 }
 
-// const tweetCollection1 = new TweetCollection(tweetsArray);
-// const userColl = new UserCollection(tweetsArray);
-// console.log(userColl);
-// tweetCollection1.user = "John Doe";
 
-// tweetCollection1.add('hello');
-// tweetCollection1.add('tw1');
-// tweetsArray.push({text: ''})
-// console.log(tweetCollection1.addAll(tweetsArray));
-// tweetCollection1.addComment('1', 'text');
-// console.log(tweetCollection1.getPage(0, 10));
-// console.log(tweetCollection1.getPage(10, 10));
-// console.log(tweetCollection1.getPage());
-// console.log(tweetCollection1.getPage(0, 10, {author: 'John'}));
-// console.log(tweetCollection1.getPage(0, 10, {author: 'Samanta'}));
-// console.log(tweetCollection1.getPage(0, 10, {dateTo: new Date('2022-03-14T19:43:23')}));
-// console.log(tweetCollection1.getPage(0, 10, {dateFrom: new Date('2022-03-14T19:43:23')}));
-// console.log(tweetCollection1.getPage(0, 10, {dateFrom: new Date('2022-03-14T19:43:23'), dateTo: new Date('2022-03-15T15:23:56')}));
-// console.log(tweetCollection1.getPage(0, 10, {text: 'country'}));
-// console.log(tweetCollection1.getPage(0, 10, {text: 'country', dateFrom: new Date('2022-03-09T23:00:00'), dateTo: new Date('2022-03-15T15:23:56')}));
-// console.log(tweetCollection1.getPage(0, 10, {text: '#dear'}));
-// console.log(tweetCollection1.getPage(0, 10, {hashtags: ['#fish', '#texts']}));
-// console.log(tweetCollection1.getPage(0, 10, {hashtags: ['#moment']}));
-
-// console.log(tweetCollection1.get('1'));
-// console.log(tweetCollection1.get('32'));
-
-// const tweet = new Tweet('6654', 'John', Date('2022-03-14T19:43:23'), 'Hello', []);
-// tweet.id = '5';
-// tweet.author = 'Vasya';
-// tweet.createdAt = Date('2022-02-15T20:20:23');
-// console.log(tweet);
-// console.log(Tweet.validate(tweet));
-
-// console.log(Tweet.validate({
-//      id: '20',
-//      text: 'The midday sun.. #dark #forest',
-//      createdAt: new Date('2022-03-12T19:54:23'),
-//      author: 'Tony Stark',
-//      comments: [],
-//   }
-// ));
-
-// console.log(Tweet.validate({
-//      id: '234',
-//      text: '',
-//      createdAt: new Date('2022-03-12T19:54:23'),
-//      author: 'Tony Stark',
-//      comments: [],
-//   }
-// ));
-
-//  console.log(Comment.validate({
-//         id: '2346',
-//         text: 'Awesome',
-//         createdAt: new Date('2022-03-12T22:21:12'),
-//         author: 'Kim Jennet',
-//     }
-//     ));
-
-//     console.log(Comment.validate({
-//         id: '201',
-//         text: 'Text',
-//         createdAt: new Date('2022-03-12T22:21:12'),
-//         author: 'Kim Jennet',
-//     }
-//     ));
-
-// console.log(tweetCollection1.add('The sun stands #dark'));
-// console.log(tweetCollection1.add(''));
-// console.log(tweetCollection1.get(`${+new Date()}`));
-
-// console.log(tweetCollection1.edit('15', 'Hi'));
-// console.log(tweetCollection1.get('15'));
-// console.log(tweetCollection1.edit('20', ''));
-// console.log(tweetCollection1.get('20'));
-
-// console.log(tweetCollection1.remove('20'));
-// console.log(tweetCollection1.remove('27'));
-
-// console.log(tweetCollection1.addComment('15', 'HELLO'));
-// console.log(tweetCollection1.getCom('12'));
-// console.log(tweetCollection1.numbOfComments('12'));
-
-// console.log(tweetCollection1.getAuthor());

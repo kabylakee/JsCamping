@@ -245,14 +245,18 @@ button, input, label, textarea {
 
 /*Filters buttons*/
 .filter_buttons {
-    display: flex;
+    /* display: flex;
     justify-content: space-around;
-    margin: 2rem 5rem 1rem 5rem;
+    margin: 2rem 5rem 1rem 5rem; */
 }
 
 .btn_reset,
 .btn_apply {
     opacity: 0.7;
+}
+
+.btn_reset {
+    margin: 2rem 5rem 1rem 5rem;
 }
 
 /*Author*/
@@ -354,6 +358,7 @@ button, input, label, textarea {
     color: var(--whiteColor);
     background-color: var(--twitColor);
     border-radius: 20px;
+    cursor: pointer;
 }
 
 .twit_info {
@@ -508,6 +513,7 @@ button, input, label, textarea {
 
     color: var(--whiteColor);
     text-decoration: none;
+    cursor: pointer;
 }
 
 .return_wrp span:hover {
@@ -574,6 +580,8 @@ button, input, label, textarea {
     font-size: 15px;
     color: var(--whiteColor);
     border-radius: 20px;
+
+    display: none;
 }
 
 .btn_load_more_com:hover {
@@ -596,7 +604,7 @@ button, input, label, textarea {
 
 .comment_area {
     width: calc(100% - 9rem);
-    height: 3rem;
+    height: 6rem;
     padding: 1rem 1rem;
     
     font-size: var(--mainFSize);
@@ -771,5 +779,18 @@ button, input, label, textarea {
     font-size: 16px;
     color: var(--whiteColor);
     background-color:#093332;
-    border-radius: 3px;
+    border-radius: 10px;
+    max-width: 80%;
+    resize: none;
+    overflow: hidden;
+    /* position: relative; */
+
+}
+
+.send-edited-text {
+    opacity: 0.6;
+}
+
+.send-edited-text:hover {
+    opacity: 1;
 }
