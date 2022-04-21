@@ -6,19 +6,24 @@ class HeaderView {
   display(user) {
     const usr = document.getElementById(this.containerId);
     const userInfo = document.querySelector(".user__info");
+    let usrName = document.querySelector(".user__name");
 
     if (user) {
       document.querySelector(".user__icon").style.display = "flex";
       document.querySelector(".btn_sign_out").style.display = "flex";
       document.querySelector(".btn_sign").style.display = "none";
-      let usrName = document.querySelector(".user__name");
+
       usrName ? usrName.remove() : (usrName = document.createElement("span"));
       usrName.classList.add("user__name");
       usrName.textContent = `${user}`;
-      tweetCollection.user = user;
+      TweetCollection.user = user;
       userInfo.appendChild(usrName);
     } else {
-      tweetCollection.user = null;
+      TweetCollection.user = null;
+      document.querySelector(".user__icon").style.display = "none";
+      document.querySelector(".btn_sign_out").style.display = "none";
+      document.querySelector(".btn_sign").style.display = "flex";
+      usrName.textContent = "";
     }
   }
 }
@@ -29,6 +34,7 @@ class TweetFeedView {
   }
 
   display(twtList, user) {
+    console.log(twtList, user);
     const startHashtag = `<span class = "hashtag">`;
     const endHashtag = `</span>`;
     const twtTpl = document.getElementById(`twt-template`);
@@ -50,7 +56,7 @@ class TweetFeedView {
       el.querySelector(".twit").id = item.id;
       el.querySelector(
         ".com_number"
-      ).textContent = `${tweetCollection.numbOfComments(item)}`;
+      ).textContent = `${TweetCollection.numbOfComments(item)}`;
       if (user !== item.author) {
         el.querySelector(".btn_change").style.display = "none";
         el.querySelector(".btn_delete").style.display = "none";
@@ -62,9 +68,40 @@ class TweetFeedView {
     document.querySelector(".main").style.display = "flex";
     container.appendChild(fragment);
   }
+
+  showSignIn(isShow) {
+    const mainSignContainer = document.querySelector(".main__sign");
+    const mainContainer = document.querySelector(".main");
+    const formSignIn = document.getElementById("form-signIn");
+    const btnSign = document.querySelector(".btn_sign");
+    const forAuthReg = document.querySelector(".for_auth_reg");
+    mainContainer.style.display = isShow ? "none" : "flex";
+    mainSignContainer.style.display = isShow ? "flex" : "none";
+    btnSign.style.display = isShow ? "none" : "flex";
+    formSignIn.style.display = isShow ? "block" : "none";
+    forAuthReg.style.display = isShow ? "flex" : "none";
+    if (isShow) {
+      formSignIn[0].focus();
+    }
+  }
+
+  showSignUp(isShow) {
+    const mainSignContainer = document.querySelector(".main__sign");
+    const mainContainer = document.querySelector(".main");
+    const formSignUp = document.getElementById("form-signUp");
+    const btnSign = document.querySelector(".btn_sign");
+    const forAuthReg = document.querySelector(".for_auth_reg");
+    mainContainer.style.display = isShow ? "none" : "flex";
+    mainSignContainer.style.display = isShow ? "flex" : "none";
+    formSignUp.style.display = isShow ? "block" : "none";
+    btnSign.style.display = isShow ? "none" : "flex";
+    forAuthReg.style.display = isShow ? "flex" : "none";
+    if (isShow) {
+      formSignUp[0].focus();
+    }
+  }
 }
 
-// TODO set filters of queryParameters and localStorage later
 class FilterView {
   constructor(containerId) {
     this.containerId = containerId;
@@ -99,7 +136,7 @@ class TweetView {
     el.querySelector(".twit_comment").id = twt.id;
     el.querySelector(
       ".com_number"
-    ).textContent = `${tweetCollection.numbOfComments(twt)}`;
+    ).textContent = `${TweetCollection.numbOfComments(twt)}`;
     if (user !== twt.author) {
       el.querySelector(".btn_change").style.display = "none";
       el.querySelector(".btn_delete").style.display = "none";
@@ -159,14 +196,15 @@ class AuthorView {
 
 class MyMoment {
   static getDateTime(date) {
+    // console.log(date);
     return `${
       String(date.getDate()).length === 2
         ? date.getDate()
         : "0" + date.getDate()
     }.${
       String(date.getMonth()).length === 2
-        ? date.getMonth()
-        : "0" + date.getMonth()
+        ? `${date.getMonth() + 1}`
+        : "0" + `${date.getMonth() + 1}`
     }.${date.getFullYear()} 
         ${
           String(date.getHours()).length === 2
@@ -180,52 +218,9 @@ class MyMoment {
   }
 }
 
-const tweetCollection = new TweetCollection(tweetsArray);
-const headerView = new HeaderView("header-id");
-const tweetFeedView = new TweetFeedView("tweet-feed-view-id");
-const tweetView = new TweetView("tweet-view-id");
-const commentView = new CommentView("comment-view-id");
-const authorView = new AuthorView("author-view-id");
+// const tweetCollection = new TweetCollection(tweetsArray);
 
-function setCurrentUser(user) {
-  headerView.display(user);
-}
-
-function addTweet(text) {
-  if (tweetCollection.add(text)) {
-    tweetFeedView.display(tweetCollection.getPage(), tweetCollection.user);
-  }
-}
-
-function editTweet(id, text) {
-  if (tweetCollection.edit(id, text)) {
-    tweetFeedView.display(tweetCollection.getPage(), tweetCollection.user);
-  }
-}
-
-function removeTweet(id) {
-  if (tweetCollection.remove(id)) {
-    tweetFeedView.display(tweetCollection.getPage(), tweetCollection.user);
-  }
-}
-
-function getFeed(skip, top, filterConfig) {
-  tweetFeedView.display(
-    tweetCollection.getPage(skip, top, filterConfig),
-    tweetCollection.user
-  );
-}
-
-function showTweet(id) {
-  tweetView.display(tweetCollection.get(id), tweetCollection.user);
-  commentView.display(tweetCollection.getCom(id));
-}
-
-function showAuthors(authorsFiltered) {
-  authorView.display(tweetCollection.getAuthor(authorsFiltered));
-}
-
-setCurrentUser("John Doe");
+// setCurrentUser("John Doe");
 // setCurrentUser('Nina Doe');
 // setCurrentUser("Dana Doe");
 // setCurrentUser();
@@ -246,9 +241,9 @@ setCurrentUser("John Doe");
 // console.log(tweetCollection.getPage());
 // getFeed();
 // getFeed();
-getFeed();
+// getFeed();
 
-showTweet("1");
+// showTweet("1");
 // addTweet("Hello, my name is John! I like potato #valley");
 // showTweet("2");
 // showTweet("3");
@@ -256,4 +251,3 @@ showTweet("1");
 // console.log(tweetCollection.getCom('4'));
 // console.log(tweetCollection.numbOfComments('12'));
 
-showAuthors();

@@ -36,13 +36,20 @@
         <div class="btn_sign_out" style="display: none">
           <button class="sign_out" id="sign-out">Sign out</button>
         </div>
+        <!-- Нужно убрать внизу style="display: none" -->
         <div class="btn_sign">
           <button class="sign_in" id="sign-in">Sign in</button>
           <button class="sign_up" id="sign-up">Sign up</button>
         </div>
+
+        <div class="for_auth_reg" style="display: none;">
+          <p class="return__to">Return to the</p>
+          <button class="main__page" id="btn-main-page">Main Page</button>
+        </div>
       </div>
     </header>
 
+    <!-- Main for TweetFeedView -->
     <main class="main">
       <article class="left_main">
         <aside class="filter_aside">
@@ -56,8 +63,8 @@
 
             <label class="filter__name" for="filter_date">Date</label>
             <div class="date_input">
-              <input type="date" class="filter_input" id="filter_date" />
-              <input type="date" class="filter_input" id="filter_date" />
+              <input type="date" class="filter_input" id="filter_date_from" />
+              <input type="date" class="filter_input" id="filter_date_to" />
             </div>
 
             <label class="filter__name" for="filter_text">Text</label>
@@ -107,12 +114,12 @@
           <textarea
             name="twit_area"
             class="twit_area"
-            id=""
+            id="area"
             cols=""
             rows=""
             placeholder="What's  new?"
           ></textarea>
-          <button class="btn_send">
+          <button class="btn_send" id="btn-send">
             <img src="img/send_twit.svg" alt="Send button" />
           </button>
         </div>
@@ -134,16 +141,19 @@
               <div class="twit_text">
                 <span class="hashtag"></span>
               </div>
+
+              <textarea rows="3" cols="50" name="text" id="edit_area" style="display: none;"></textarea>
+           
             </div>
             <div class="twit_menu">
-              <button class="btn_change" title="Change twit">
+              <button class="btn_change" title="Change twit" id="btn-change">
                 <img
                   src="img/edit_twit.svg"
                   alt="Change button"
                   class="btn_img"
                 />
               </button>
-              <button class="btn_delete" title="Delete twit">
+              <button class="btn_delete" title="Delete twit" id="btn-delete">
                 <img
                   src="img/delete_twit.svg"
                   alt="Delete button"
@@ -170,12 +180,13 @@
       </article>
     </main>
 
+    <!-- Main for TweetView -->
     <main class="main_comment" style="display: none">
       <article class="comment_container">
         <div class="return_wrp">
           <img src="img/arrow_link.svg" alt="Return arrow" />
           <a href="main.html" class="return_link"
-            >Return to the <span>Main Page</span>
+            >Return to the <span id="btn-main-page">Main Page</span>
           </a>
         </div>
 
@@ -193,6 +204,7 @@
                 <span class="user__name"></span>
                 <span class="date_time"></span>
               </div>
+
               <div class="twit_text"></div>
               <span class="hashtag"></span>
             </div>
@@ -257,20 +269,88 @@
       </article>
     </main>
 
+    <!-- Main Sign -->
+    <main class="main__sign" style="display: none">
+      <div class="bcground__img">
+        <img src="img/sad-mood.svg" alt="background image" />
+        <img src="img/smile-mood.svg" alt="background image" />
+      </div>
+
+      <form class="form__signIn" id="form-signIn">
+        <div class="container__signIn">
+          <p class="form__title">Welcome to Moodle</p>
+          <p class="form__subtitle">Share your feelings and thoughts!</p>
+
+          <input type="text" name="login" placeholder="Login" class="login" required/>
+
+          <input
+            type="password"
+            name="psw"
+            placeholder="Password"
+            class="psw"
+            required
+          />
+
+          <p class="validation_title" style="display: none;">Incorrect login or password!</p>
+          <button type="submit" id="btn-auth">Sign in</button>
+
+          <div class="title__create">
+            <p class="lower__title">New to Moodle?</p>
+            <button class="btn_create" id="sign-up">Create an account</button>
+          </div>
+        </div>
+      </form>
+
+      <form class="form__signUp" id="form-signUp" style="display: none;">
+        <div class="container__signUp">
+          <p class="form__title">Welcome to Moodle</p>
+          <p class="form__subtitle">Share your feelings and thoughts!</p>
+
+          <input
+            type="text"
+            name="login"
+            placeholder="Login"
+            class="login"
+            required
+          />
+
+          <input
+            type="password"
+            name="psw"
+            placeholder="Password"
+            class="psw"
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            name="psw-repeat"
+            class="psw-repeat"
+            required
+          />
+
+          <p class="validation_title2" style="display: none;">This user is existed!</p>
+          <button type="submit" id="btn-registr">Sign up</button>
+
+          <div class="title__create">
+            <p class="lower__title">Already have an account?</p>
+            <button class="sign_in" id="sign-in">Sign in</button>
+          </div>
+        </div>
+      </form>
+    </main>
+
     <footer class="footer">
       <p class="footer__info">© Moodle 2022</p>
-      <a
-        href="https://github.com/kabylakee"
-        target="_blank"
-        class="footer__info"
-        >by Viktoria_Rabcevich</a
-      >
-      <a href="mailto:vctrcute@gmail.com" target="_blank" class="footer__info"
-        >vctrcute@gmail.com</a
-      >
+      <a href="https://github.com/kabylakee" target="_blank" class="footer__info">by Viktoria_Rabcevich</a>
+      <a href="mailto:vctrcute@gmail.com" target="_blank" class="footer__info">vctrcute@gmail.com</a>
       <p class="footer__info">changed: 22.02.2022</p>
     </footer>
   </body>
-  <script src="/jsDeepDive.js"></script>
-  <script src="/jsDOM.js"></script>
+  <script src="js/mock.js"></script>>
+  <script src="js/model.js"></script>>
+  <script src="js/view.js"></script>>
+  <script src="js/controller.js"></script>>
+
 </html>
