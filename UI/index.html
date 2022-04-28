@@ -76,7 +76,7 @@
               class="filter_input"
               id="filter_hashtag"
               list="list"
-              placeholder="#hashtag #hashtag"
+              placeholder="#hashtag,#hashtag"
             />
             <button type="reset" class="btn_reset" id="btn-reset"  title="Reset filters" >
               <!-- onclick="this.form.reset();" -->
@@ -102,7 +102,7 @@
         <aside class="author_aside">
           <div class="author">
             <img class="icon" src="img/author_icon.svg" alt="Author icon" />
-            <span class="a_name">Authors</span>
+            <span class="a_name">TOP Authors by tweets</span>
           </div>
           <div id="author-view-id">
             <template id="author-template">
@@ -317,6 +317,7 @@
             name="login"
             placeholder="Login"
             class="login"
+            id="login"
             required
           />
 
@@ -325,6 +326,7 @@
             name="password"
             placeholder="Password"
             class="password"
+            id="psw"
             required
           />
 

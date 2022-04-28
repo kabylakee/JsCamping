@@ -38,7 +38,7 @@ class TweetFeedApiService {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },
       body: JSON.stringify(body),
-    })
+    });
   }
 
   deleteTweet(id) {
@@ -61,33 +61,64 @@ class TweetFeedApiService {
     });
   }
 
-  getTweets(skip, top, filterConfig) {
-    filterConfig.skip = skip;
-    filterConfig.top = top;
+  getTweets(filterConfig) {
+    removeKeys(filterConfig);
     const url = "https://jslabapi.datamola.com/tweet";
     return fetch(`${url}?${new URLSearchParams(filterConfig)}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-    }).then((res) => {
+    })
+      .then((res) => {
         if (res.status === 200 || res.status === 201) {
           return res.json();
         } else {
-          document.querySelector(".main_error").style.display = "flex";
-          document.querySelector(".main").style.display = "none";
+          console.warn(res.status, "Error");
         }
-      }).then((data) => {
+      })
+      .then((data) => {
         data.forEach((item) => {
-         item.createdAt = new Date(item.createdAt);
-         console.log(item.createdAt);
+          item.createdAt = new Date(item.createdAt);
           item.textWithoutHashtags = item.text;
           item.comments.forEach((commment) => {
             commment.createdAt = new Date(commment.createdAt);
           });
         });
-        // console.log(data);
         return data;
+      });
+  }
+
+  getTweetsForTop() {
+    const filterConfig = { skip: 0, top: 0 };
+    const url = "https://jslabapi.datamola.com/tweet";
+    return fetch(`${url}?${new URLSearchParams(filterConfig)}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    })
+      .then((res) => {
+        if (res.status === 200 || res.status === 201) {
+          return res.json();
+        } else {
+          console.warn(res.status, "Error");
+        }
+      })
+      .then((data) => {
+        const listAuthors = {};
+        data.forEach((item) => {
+          listAuthors[item.author] =
+            listAuthors[item.author] === undefined
+              ? 1
+              : listAuthors[item.author] + 1;
+        });
+        // console.log(listAuthors);
+        const sortedList = [];
+        for (let el in listAuthors) {
+          sortedList.push({ author: el, count: listAuthors[el] });
+        }
+        return sortedList.sort((a, b) => b.count - a.count);
       });
   }
 }

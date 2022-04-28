@@ -7,43 +7,54 @@ class TweetController {
     this.commentView = new CommentView("comment-view-id");
     this.authorView = new AuthorView("author-view-id");
     this.token = `Bearer ${JSON.parse(localStorage.getItem("token"))}`;
-    this.showTweetsTimeout = null;
   }
 
-  static numberOfTweet = 10;
-  static filterConfig = {};
+  static filterConfig = { skip: 0, top: 10 };
+  static showTweetsTimeout = null;
 
   setCurrentUser() {
     this.headerView.display();
   }
 
   signIn() {
+    clearTimeout(TweetController.showTweetsTimeout);
     this.tweetFeedView.showSignIn(true);
   }
 
   signUp() {
+    clearTimeout(TweetController.showTweetsTimeout);
     this.tweetFeedView.showSignUp(true);
   }
 
   registr(data) {
-    this.apiService.postRegistration(data).then((res) => {
-      console.log("Everything is OK", res);
-      if (res.status === 201) {
-        document.querySelector(".login").value = "";
-        document.querySelector(".password").value = "";
+    this.apiService
+      .postRegistration(data)
+      .then((res) => {
+        console.log("Everything is OK", res);
+        if (res.status === 201) {
+          const userName = res.json.login;
+          this.tweetFeedView.showSignUp(false);
+          this.tweetFeedView.showSignIn(true, userName);
+        } else if (res.status === 409) {
+          const ValidTitle = document.querySelector(".validation_title2");
+          setTimeout(() => {
+            ValidTitle.style.display = "inline";
+          }, 0);
+          setTimeout(() => {
+            ValidTitle.style.display = "none";
+          }, 4000);
+        } else {
+          console.log("Error", res.status);
+          document.querySelector(".main_error").style.display = "flex";
+          document.querySelector(".main").style.display = "none";
+        }
+        document.querySelector(".main_error").style.display = "none";
+      })
+      .then(() => {
+        document.getElementById("login").value = "";
+        document.getElementById("psw").value = "";
         document.querySelector(".psw-repeat").value = "";
-        const userName = res.json.login;
-        this.tweetFeedView.showSignUp(false);
-        this.tweetFeedView.showSignIn(true, userName);
-      }
-      if (res.status === 409) {
-        document.querySelector(".validation_title2").style.display = "inline";
-      } else {
-        console.log("Error", res.status);
-        document.querySelector(".main_error").style.display = "flex";
-        document.querySelector(".main").style.display = "none";
-      }
-    });
+      });
   }
 
   login(data) {
@@ -54,9 +65,14 @@ class TweetController {
         if (res.status === 201) {
           localStorage.setItem("user", JSON.stringify(data.login));
           return res.json();
-        }
-        if (res.status === 403) {
-          document.querySelector(".validation_title").style.display = "inline";
+        } else if (res.status === 403) {
+          const ValidTitle = document.querySelector(".validation_title");
+          setTimeout(() => {
+            ValidTitle.style.display = "inline";
+          }, 0);
+          setTimeout(() => {
+            ValidTitle.style.display = "none";
+          }, 4000);
         } else {
           console.log("Error", res.status);
           document.querySelector(".main_error").style.display = "flex";
@@ -64,6 +80,7 @@ class TweetController {
         }
       })
       .then((dataToken) => {
+        document.querySelector(".main_error").style.display = "none";
         document.querySelector(".login").value = "";
         document.querySelector(".password").value = "";
         localStorage.setItem("token", JSON.stringify(dataToken.token));
@@ -91,18 +108,20 @@ class TweetController {
         console.log("Everything is OK", res);
         if (res.status === 201 || res.status === 200) {
           return res.json();
-        }
-        if (res.status === 401) {
-          this.tweetFeedView.showSignIn(true);
+        } else if (res.status === 401) {
+          this.signIn();
+          return false;
         } else {
           console.log("Error", res.status);
           document.querySelector(".main_error").style.display = "flex";
           document.querySelector(".main").style.display = "none";
+          return false;
         }
       })
       .then((data) => {
-        console.log(data);
-        this.getFeed();
+        if (data) {
+          this.getFeed();
+        }
       });
   }
 
@@ -116,29 +135,30 @@ class TweetController {
       .then((res) => {
         if (res.status === 200 || res.status === 201) {
           return res.json();
-        }
-        if (res.status === 401) {
-          this.tweetFeedView.showSignIn(true);
+        } else if (res.status === 401) {
+          this.signIn();
+          return false;
         } else {
           document.querySelector(".main_error").style.display = "flex";
           document.querySelector(".main").style.display = "none";
+          return false;
         }
       })
       .then((data) => {
-        console.log(data);
-        this.getFeed();
+        if (data) {
+          this.getFeed();
+        }
       });
   }
 
   removeTweet(id) {
     this.apiService.deleteTweet(id).then((res) => {
-      console.log(typeof id);
       if (res.status === 204) {
         console.log("Everything is OK", res);
         this.getFeed();
       }
       if (res.status === 401) {
-        this.tweetFeedView.showSignIn(true);
+        this.signIn();
       } else {
         console.warn("Error", res.status);
         document.querySelector(".main_error").style.display = "flex";
@@ -148,6 +168,7 @@ class TweetController {
   }
 
   showTweet(tweet) {
+    clearTimeout(TweetController.showTweetsTimeout);
     this.tweetView.display(tweet);
     this.commentView.display(tweet.comments);
   }
@@ -160,30 +181,46 @@ class TweetController {
           return res.json();
         }
         if (res.status === 401) {
-          this.tweetFeedView.showSignIn(true);
+          this.signIn();
+          return false;
         } else {
           console.warn("Error", res.status);
           document.querySelector(".main_error").style.display = "flex";
           document.querySelector(".main").style.display = "none";
           document.querySelector(".main_comment").style.display = "none";
+          return false;
         }
       })
       .then((data) => {
-        this.showTweet(data);
+        if (data) {
+          this.showTweet(data);
+        }
       });
   }
 
-  getFeed(skip, top, filterConfig = {}) {
-    if (this.showTweetsTimeout) {
-      clearTimeout(this.showTweetsTimeout);
+  getFeed(
+    skip = TweetController.filterConfig.skip,
+    top = TweetController.filterConfig.top,
+    filterConfig = TweetController.filterConfig
+  ) {
+    if (TweetController.showTweetsTimeout) {
+      clearTimeout(TweetController.showTweetsTimeout);
     }
-    this.apiService.getTweets(skip, top, filterConfig).then((result) => {
-      // console.log(JSON.stringify(result));
+    this.apiService.getTweets(filterConfig).then((result) => {
       this.tweetFeedView.display(result);
+      TweetController.showTweetsTimeout = setTimeout(() => {
+        this.getFeed(
+          TweetController.filterConfig.skip,
+          TweetController.filterConfig.top,
+          TweetController.filterConfig
+        );
+      }, 6 * 1000);
+    });
+  }
+
+  getTopAuthors() {
+    this.apiService.getTweetsForTop().then((result) => {
       this.authorView.display(result);
-      this.showTweetsTimeout = setTimeout(() => {
-        this.getFeed();
-      }, 60 * 1000);
     });
   }
 }
@@ -192,6 +229,7 @@ const tweetController = new TweetController();
 
 document.addEventListener("DOMContentLoaded", function () {
   tweetController.getFeed();
+  tweetController.getTopAuthors();
   tweetController.updateHeader();
 });
 
@@ -249,6 +287,7 @@ btnReset.addEventListener("click", () => {
   filterDateTo.textContent = "";
   filterText.textContent = "";
   filterHashtag.textContent = "";
+  TweetController.filterConfig = { skip: 0, top: 10 };
   setTimeout(() => {
     tweetController.getFeed();
   });
@@ -266,7 +305,13 @@ formSignIn.addEventListener("submit", (event) => {
 formSignUp.addEventListener("submit", (event) => {
   event.preventDefault();
   if (formSignUp[1].value !== formSignUp[2].value) {
-    document.querySelector(".wrong_title").style.display = "inline";
+    const WrongTitle = document.querySelector(".wrong_title");
+    setTimeout(() => {
+      WrongTitle.style.display = "inline";
+    }, 0);
+    setTimeout(() => {
+      WrongTitle.style.display = "none";
+    }, 4000);
   } else {
     const user = {
       login: formSignUp[0].value,
@@ -277,6 +322,7 @@ formSignUp.addEventListener("submit", (event) => {
 });
 
 btnError.addEventListener("click", function () {
+  document.querySelector(".main_error").style.display = "none";
   setTimeout(() => {
     tweetController.getFeed();
   });
@@ -341,35 +387,45 @@ tweetFeedViewId.onclick = function (event) {
 
 btnSendComment.addEventListener("click", () => {
   const twitComId = document.querySelector(".twit_comment").id;
-  console.log(twitComId, "comment");
   tweetController.addCommentToTweet(twitComId, commentArea.value);
   commentArea.value = "";
 });
 
 btnLoadMore.addEventListener("click", function () {
-  console.log(TweetController.numberOfTweet);
-  tweetController.getFeed(0, (TweetController.numberOfTweet += 10));
+  TweetController.filterConfig.top += 10;
+  tweetController.getFeed();
 });
 
 filterAuthor.addEventListener("input", () => {
   TweetController.filterConfig.author = filterAuthor.value;
-  tweetController.getFeed(0, 10, TweetController.filterConfig);
+  tweetController.getFeed();
 });
 filterDateTo.addEventListener("change", () => {
-  console.log(new Date(filterDateTo.value));
-  TweetController.filterConfig.dateTo = new Date(filterDateTo.value);
-  tweetController.getFeed(0, 10, TweetController.filterConfig);
+  TweetController.filterConfig.dateTo = new Date(
+    filterDateTo.value
+  ).toISOString();
+  tweetController.getFeed();
 });
 filterDateFrom.addEventListener("change", () => {
-  console.log(new Date(filterDateFrom.value));
-  TweetController.filterConfig.dateFrom = new Date(filterDateFrom.value);
-  tweetController.getFeed(0, 10, TweetController.filterConfig);
+  TweetController.filterConfig.dateFrom = new Date(
+    filterDateFrom.value
+  ).toISOString();
+  tweetController.getFeed();
 });
 filterText.addEventListener("input", () => {
   TweetController.filterConfig.text = filterText.value;
-  tweetController.getFeed(0, 10, TweetController.filterConfig);
+  tweetController.getFeed();
 });
 filterHashtag.addEventListener("input", () => {
-  TweetController.filterConfig.hashtags = filterHashtag.value.replace('#', '');
-  tweetController.getFeed(0, 10, TweetController.filterConfig);
+  TweetController.filterConfig.hashtags = filterHashtag.value.replace(/#/g, "");
+  tweetController.getFeed();
 });
+
+function removeKeys(filterConfig) {
+  for (let propName in filterConfig) {
+    if (filterConfig[propName] === "") {
+      delete filterConfig[propName];
+    }
+  }
+  return filterConfig;
+}

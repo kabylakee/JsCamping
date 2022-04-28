@@ -116,7 +116,6 @@ class TweetFeedView {
     el.querySelector(".btn_change").style.display = "none";
     el.querySelector(".twit_msg").style.display = "none";
     el.querySelector(".send-edited-text").style.display = "block";
-    console.log(el);
     editArea.textContent = JSON.parse(el.dataset.tweet).textWithoutHashtags;
     editArea.style.display = "flex";
     el.querySelector(".twit_text").style.display = "none";
@@ -129,7 +128,6 @@ class TweetView {
   }
 
   display(twt) {
-    console.log(twt);
     const user = JSON.parse(localStorage.getItem("user"));
     const startHashtag = `<span class = "hashtag">`;
     const endHashtag = `</span>`;
@@ -172,7 +170,6 @@ class CommentView {
   }
 
   display(comList) {
-    // console.log(comList);
     const comTpl = document.getElementById(`com-template`);
     const container = document.getElementById(this.containerId);
     const fragment = new DocumentFragment();
@@ -183,7 +180,6 @@ class CommentView {
       el.querySelector(".date_time").textContent = MyMoment.getDateTime(
         item.createdAt
       );
-      // el.querySelector(".twit_comment").id = item.id;
       fragment.appendChild(el);
     }
     container.innerHTML = "";
