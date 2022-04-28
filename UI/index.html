@@ -76,7 +76,7 @@
               class="filter_input"
               id="filter_hashtag"
               list="list"
-              placeholder="#hashtag #hashtag"
+              placeholder="#hashtag,#hashtag"
             />
             <button type="reset" class="btn_reset" id="btn-reset"  title="Reset filters" >
               <!-- onclick="this.form.reset();" -->
@@ -102,7 +102,7 @@
         <aside class="author_aside">
           <div class="author">
             <img class="icon" src="img/author_icon.svg" alt="Author icon" />
-            <span class="a_name">Authors</span>
+            <span class="a_name">TOP Authors by tweets</span>
           </div>
           <div id="author-view-id">
             <template id="author-template">
@@ -294,7 +294,7 @@
             type="password"
             name="psw"
             placeholder="Password"
-            class="psw"
+            class="password"
             required
           />
 
@@ -317,14 +317,16 @@
             name="login"
             placeholder="Login"
             class="login"
+            id="login"
             required
           />
 
           <input
             type="password"
-            name="psw"
+            name="password"
             placeholder="Password"
-            class="psw"
+            class="password"
+            id="psw"
             required
           />
 
@@ -348,6 +350,20 @@
       </form>
     </main>
 
+    <!-- Main Error -->
+    <main class="main_error" style="display: none">
+      <section>
+      <img src="img/error.svg" alt="error image" class="img_error"/>
+      </section>
+      <section>
+      <p class="f_error_text text">Oops,</p>
+      <p class="s_error_text text">nothing <span class="span_text">here!</span></p>
+      <p class="main_error_text">Uh oh, we can’t seem to find the page you’re looking for.</p>
+      <p class="main_error_text">Try going back to previous page!</p>
+      <button type="button" class="btn_error">Go Back</button>
+      </section>
+    </main>
+
     <footer class="footer">
       <p class="footer__info">© Moodle 2022</p>
       <a href="https://github.com/kabylakee" target="_blank" class="footer__info">by Viktoria_Rabcevich</a>
@@ -355,8 +371,7 @@
       <p class="footer__info">changed: 22.02.2022</p>
     </footer>
   </body>
-  <script src="js/mock.js"></script>>
-  <script src="js/model.js"></script>>
+  <script src="js/tweetFeedApiService.js"></script>>
   <script src="js/view.js"></script>>
   <script src="js/controller.js"></script>>
 
